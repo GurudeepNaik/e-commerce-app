@@ -1,11 +1,11 @@
 import { ThemedStatusBar } from "@/components/StatusBar";
-import { Text, View } from "react-native";
+import { View, Text } from "react-native";
 
-export default function HomeScreen() {
+export default function User() {
   return (
     <View className="flex-1 items-center justify-center">
       <ThemedStatusBar />
-      <Text className="text-white">Hello Home</Text>
+      <Text className="text-white">Hello User</Text>
     </View>
   );
 }
