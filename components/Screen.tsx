@@ -11,7 +11,7 @@ export const Screen = ({
   className?: ClassNameValue;
 }) => {
   return (
-    <ThemedView className={cn("flex-1 items-center justify-center", className)}>
+    <ThemedView className={cn("flex-1 pt-8", className)}>
       {children}
     </ThemedView>
   );

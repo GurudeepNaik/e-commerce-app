@@ -25,7 +25,7 @@ import Animated, {
   useDerivedValue,
 } from "react-native-reanimated";
 
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Icon } from "@/components/Icon";
 import { Tabs } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { cn } from "@/utils/cn";
@@ -41,7 +41,7 @@ const App = () => {
           options={{
             title: "Home",
             tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
+              <Icon
                 name={focused ? "home" : "home-outline"}
                 color={color}
               />
@@ -54,7 +54,7 @@ const App = () => {
           options={{
             title: "You",
             tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
+              <Icon
                 name={focused ? "person" : "person-outline"}
                 color={color}
               />
@@ -67,7 +67,7 @@ const App = () => {
           options={{
             title: "Cart",
             tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
+              <Icon
                 name={focused ? "cart" : "cart-outline"}
                 color={color}
               />
@@ -81,7 +81,7 @@ const App = () => {
           options={{
             title: "Category",
             tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
+              <Icon
                 name={focused ? "menu" : "menu-outline"}
                 color={color}
               />
