@@ -1,11 +1,10 @@
-import { ThemedStatusBar } from "@/components/StatusBar";
-import { View, Text } from "react-native";
+import { Screen } from "@/components/Screen";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function Cart() {
   return (
-    <View className="flex-1 items-center justify-center bg-[#604AE6]">
-      <ThemedStatusBar />
-      <Text className="text-white">Hello Cart</Text>
-    </View>
+    <Screen>
+      <ThemedText>Hello Cart</ThemedText>
+    </Screen>
   );
 }

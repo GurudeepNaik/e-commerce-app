@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { Screen } from "@/components/Screen";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function Category() {
   return (
-    <View className="flex-1 items-center justify-center bg-[#604AE6]">
-      <Text className="text-white">Hello Category</Text>
-    </View>
+    <Screen>
+      <ThemedText>Hello Category</ThemedText>
+    </Screen>
   );
 }

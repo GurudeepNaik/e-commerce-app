@@ -5,9 +5,10 @@ import {
   View,
   Text,
   LayoutChangeEvent,
+  useColorScheme,
 } from "react-native";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useTheme } from "@react-navigation/native";
 
 import {
   BottomTabBarProps,
@@ -26,66 +27,70 @@ import Animated, {
 
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Tabs } from "expo-router";
+import { Colors } from "@/constants/Colors";
+import { cn } from "@/utils/cn";
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
 const App = () => {
   return (
-    <>
-      <NavigationContainer independent={true}>
-        <Tabs tabBar={(props) => <AnimatedTabBar {...props} />}>
-          <Tabs.Screen
-            name="index"
-            options={{
-              title: "Home",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon
-                  name={focused ? "home" : "home-outline"}
-                  color={color}
-                />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="user"
-            options={{
-              title: "You",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon
-                  name={focused ? "person" : "person-outline"}
-                  color={color}
-                />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="cart"
-            options={{
-              title: "Cart",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon
-                  name={focused ? "cart" : "cart-outline"}
-                  color={color}
-                />
-              ),
-            }}
-          />
+    <NavigationContainer independent={true}>
+      <Tabs tabBar={(props) => <AnimatedTabBar {...props} />}>
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "home" : "home-outline"}
+                color={color}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="user"
+          options={{
+            title: "You",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "person" : "person-outline"}
+                color={color}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="cart"
+          options={{
+            title: "Cart",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "cart" : "cart-outline"}
+                color={color}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
 
-          <Tabs.Screen
-            name="category"
-            options={{
-              title: "Category",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon
-                  name={focused ? "menu" : "menu-outline"}
-                  color={color}
-                />
-              ),
-            }}
-          />
-        </Tabs>
-      </NavigationContainer>
-    </>
+        <Tabs.Screen
+          name="category"
+          options={{
+            title: "Category",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "menu" : "menu-outline"}
+                color={color}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+      </Tabs>
+    </NavigationContainer>
   );
 };
 
@@ -95,6 +100,8 @@ const AnimatedTabBar = ({
   descriptors,
 }: BottomTabBarProps) => {
   const { bottom } = useSafeAreaInsets();
+  const theme = useColorScheme() ?? "light";
+
   const reducer = (state: any, action: { x: number; index: number }) => {
     return [...state, { x: action.x, index: action.index }];
   };
@@ -117,7 +124,13 @@ const AnimatedTabBar = ({
   });
 
   return (
-    <View style={[styles.tabBar, { paddingBottom: bottom }]}>
+    <View
+      style={[{ paddingBottom: bottom }]}
+      className={cn(
+        "bg-secondary",
+        theme === "dark" ?? "bg-secondary-dark"
+      )}
+    >
       <AnimatedSvg
         width={110}
         height={60}
@@ -125,7 +138,7 @@ const AnimatedTabBar = ({
         style={[styles.activeBackground, animatedStyles]}
       >
         <Path
-          fill="#604AE6"
+          fill={Colors[theme].background}
           d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
         />
       </AnimatedSvg>
@@ -164,10 +177,9 @@ const TabBarComponent = ({
   onPress,
 }: TabBarComponentProps) => {
   const ref = useRef(null);
-
+  const theme = useColorScheme() ?? "light";
   useEffect(() => {
     if (active && ref?.current) {
-      console.log(ref.current);
       // @ts-ignore
       ref.current.play();
     }
@@ -192,7 +204,8 @@ const TabBarComponent = ({
   return (
     <Pressable onPress={onPress} onLayout={onLayout} style={styles.component}>
       <Animated.View
-        style={[styles.componentCircle, animatedComponentCircleStyles]}
+        style={[animatedComponentCircleStyles]}
+        className={cn("flex-1 rounded-full bg-secondary",theme==="dark"??"bg-secondary-dark")}
       />
       <Animated.View
         style={[styles.iconContainer, animatedIconContainerStyles]}
@@ -200,7 +213,7 @@ const TabBarComponent = ({
         {options.tabBarIcon ? (
           options.tabBarIcon({
             focused: true,
-            color: active ? "activeColor" : "inactiveColor",
+            color: Colors[theme].primaryForeground,
             size: 24,
           })
         ) : (
@@ -212,9 +225,6 @@ const TabBarComponent = ({
 };
 
 const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: "white",
-  },
   activeBackground: {
     position: "absolute",
   },
